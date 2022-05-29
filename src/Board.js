@@ -42,7 +42,7 @@ const Board = ({active,setactive}) => {
         [1, 1],
         [-1, -1]
     ]
-    
+    const [speed, setspeed] = useState(100)
     const runningRef = useRef(isRunning)
     runningRef.current = isRunning
     
@@ -64,24 +64,40 @@ const Board = ({active,setactive}) => {
                                                     neighbors += g[newi][newj]
                                                     
                                                    
-                                            }                                         
-                                           if(g[i][j] === 1 && neighbors<2 || neighbors > 3){
-                                               gridCopy[i][j] =0
-                                           }else if(g[i][j] === 1 && neighbors===2 || neighbors === 3){
-                                            gridCopy[i][j] =1
-                                           }else if(g[i][j] === 0 && neighbors === 3){
-                                            gridCopy[i][j] =1
-                                           } 
+                                            }      
+                                            //my own alogorithm                                   
+                                            // if(g[i][j] === 1  && neighbors < 2 ){
+                                            //     gridCopy[i][j]= 0
+                                              
+                                            // }else if(neighbors === 3 || neighbors ===2){
+                                              
+                                            //     gridCopy[i][j]= 1
+                                            // }else if(neighbors > 3){
+                                            //     gridCopy[i][j]= 0
+                                              
+                                            // }
+                                            // else if(g[i][j] === 0 && neighbors === 3){
+                                            //     gridCopy[i][j] = 1
+                                              
+                                            // }
+                                            if(g[i][j] === 1 && neighbors<2 || neighbors > 3){
+                                                gridCopy[i][j] =0
+                                            }else if(g[i][j] === 1 && neighbors===2 || neighbors === 3){
+                                             gridCopy[i][j] =1
+                                            }else if(g[i][j] === 0 && neighbors === 3){
+                                             gridCopy[i][j] =1
+                                            } 
                                            
                                         })
                                 }
                             }
                     })
                 })
-        setTimeout(runSimulation,100)
+        setTimeout(runSimulation,speed)
        },
        [],
      )
+    
      const [gen, setgen] = useState(1)
     //setting the grid into a state
     const [grid, setgrid] = useState(()=> createGrid())
@@ -137,7 +153,17 @@ const Board = ({active,setactive}) => {
             <button style={button} onClick={()=>{
                  setgrid(randomize())
             }}>Random</button>
-           
+            <button style={button} onClick={
+                ()=>{
+                    setspeed(speed+100)
+                }
+            }>Speed +100 millseconds</button>
+            <button style={button} onClick={()=>{
+               if(speed != 0){
+                setspeed(speed-100)
+               }
+            }}>Speed -100 millseconds</button>
+           <div style={button}>{speed}mill seconds</div>
         </div>
         <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
         <Grid isRunning={isRunning} row={row} col={col} grid={grid}setgrid={setgrid}/>
