@@ -65,20 +65,13 @@ const Board = ({active,setactive}) => {
                                                     
                                                    
                                             }                                         
-                                            if(g[i][j] === 1  && neighbors < 2 ){
-                                                gridCopy[i][j]= 0
-                                              
-                                            }else if(neighbors === 3 || neighbors ===2){
-                                              
-                                                gridCopy[i][j]= 1
-                                            }else if(neighbors > 3){
-                                                gridCopy[i][j]= 0
-                                              
-                                            }
-                                            else if(g[i][j] === 0 && neighbors === 3){
-                                                gridCopy[i][j] = 1
-                                              
-                                            }
+                                           if(g[i][j] === 1 && neighbors<2 || neighbors > 3){
+                                               gridCopy[i][j] =0
+                                           }else if(g[i][j] === 1 && neighbors===2 || neighbors === 3){
+                                            gridCopy[i][j] =1
+                                           }else if(g[i][j] === 0 && neighbors === 3){
+                                            gridCopy[i][j] =1
+                                           } 
                                            
                                         })
                                 }
