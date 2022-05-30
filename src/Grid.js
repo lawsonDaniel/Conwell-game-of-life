@@ -9,7 +9,6 @@ const Grid = ({col,row,grid,setgrid,isRunning}) => {
     const gridTemplate ={
         display:'grid',
         gridTemplateColumns:`repeat(${col},26px)`,
-        background:'#0d1117',
         width:'100vw',
         justifyContent:'center'
         // gridTemplateRows:`repeat(${row},20px)`,

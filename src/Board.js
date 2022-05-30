@@ -9,6 +9,14 @@ const Board = ({active,setactive}) => {
     const [col, setcol] = useState(50)
     const [isRunning, setisRunning] = useState(false)
     const [conwells, setconwells] = useState(true)
+    const [isDarkMode, setisDarkMode] = useState(()=>{
+       if(!localStorage.getItem('mode')){
+           return true
+       }else{
+           return localStorage.getItem('mode')
+       }
+    })
+    console.log(isDarkMode)
     const randomize =()=>{
         const arr = new Array()
         for(let i=0;i<=row;i++){
@@ -128,11 +136,37 @@ const Board = ({active,setactive}) => {
         color: '#fff',
         borderRadius: '5px'
     }
+    const mode ={
+        background: `${isDarkMode  ? 'rgb(13, 17, 23)' : '#fff'}`,
+        transition:'1s'
+    }
+    if(!localStorage.getItem('mode')){
+        localStorage.setItem('mode',true)
+    }else{
+
+    }
   return (
-    <div style={{ background:'#0d1117'}}>
+    <div style={mode}>
+        <div className='toggle-container'>  
+            <div><label className="switch">
+                <input onChange={(e)=>{
+                    console.log('changed')
+                    console.log(e.target.disabled)
+                }} type="checkbox" onClick={()=>{
+                    setisDarkMode(!isDarkMode)
+                      if(!localStorage.getItem('mode')){
+                          console.log(localStorage.getItem('mode'))
+                        localStorage.setItem('mode',`${isDarkMode}`)
+                    }else if(localStorage.getItem('mode') != isDarkMode){
+                        localStorage.setItem('mode',`${isDarkMode}`)
+                    }
+                    
+                }} />
+                <span className="slider round"></span>
+                </label></div></div>
       <div style={{background:'#333'}}></div>
         <div style={{display:'flex',justifyContent:'center'}}>
-        <button style={ buttonwithcolor}  onClick={()=>{
+                        <button style={ buttonwithcolor}  onClick={()=>{
                 setisRunning(!isRunning)
               if(!isRunning){
                   runningRef.current = true
@@ -169,18 +203,20 @@ const Board = ({active,setactive}) => {
                 ()=>{
                     setspeed(speed+100)
                 }
-            }>Speed +100 millseconds</button>
+            }>Speed +100 </button>
             <button style={button} onClick={()=>{
                if(speed != 0){
                 setspeed(speed-100)
                }
-            }}>Speed -100 millseconds</button>
+            }}>Speed -100</button> 
+          
            <div style={button}>{speed}mill seconds</div>
+           
         </div>
         <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
         <Grid isRunning={isRunning} row={row} col={col} grid={grid}setgrid={setgrid}/>
         </div>
-        <div style={{color:'#fff'}}>{console.log(grid)}</div>
+        {/* <div style={{color:'#fff'}}>{console.log(grid)}</div> */}
     </div>
   )
 }
