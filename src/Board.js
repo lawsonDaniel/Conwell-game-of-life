@@ -8,7 +8,7 @@ const Board = ({active,setactive}) => {
     const [row, setrow] = useState(50);
     const [col, setcol] = useState(50)
     const [isRunning, setisRunning] = useState(false)
-    
+    const [conwells, setconwells] = useState(true)
     const randomize =()=>{
         const arr = new Array()
         for(let i=0;i<=row;i++){
@@ -46,7 +46,7 @@ const Board = ({active,setactive}) => {
     const runningRef = useRef(isRunning)
     runningRef.current = isRunning
     
-     const runSimulation = useCallback(
+     const runSimulation = 
        () => {
         if(!runningRef.current){
             return;
@@ -66,20 +66,7 @@ const Board = ({active,setactive}) => {
                                                    
                                             }      
                                             //my own alogorithm                                   
-                                            // if(g[i][j] === 1  && neighbors < 2 ){
-                                            //     gridCopy[i][j]= 0
-                                              
-                                            // }else if(neighbors === 3 || neighbors ===2){
-                                              
-                                            //     gridCopy[i][j]= 1
-                                            // }else if(neighbors > 3){
-                                            //     gridCopy[i][j]= 0
-                                              
-                                            // }
-                                            // else if(g[i][j] === 0 && neighbors === 3){
-                                            //     gridCopy[i][j] = 1
-                                              
-                                            // }
+                                            if(conwells === true){
                                             if(g[i][j] === 1 && neighbors<2 || neighbors > 3){
                                                 gridCopy[i][j] =0
                                             }else if(g[i][j] === 1 && neighbors===2 || neighbors === 3){
@@ -87,16 +74,30 @@ const Board = ({active,setactive}) => {
                                             }else if(g[i][j] === 0 && neighbors === 3){
                                              gridCopy[i][j] =1
                                             } 
-                                           
+                                        }else{
+                                            if(g[i][j] === 1  && neighbors < 2 ){
+                                                gridCopy[i][j]= 0
+                                              
+                                            }else if(neighbors === 3 || neighbors ===2){
+                                              
+                                                gridCopy[i][j]= 1
+                                            }else if(neighbors > 3){
+                                                gridCopy[i][j]= 0
+                                              
+                                            }
+                                            else if(g[i][j] === 0 && neighbors === 3){
+                                                gridCopy[i][j] = 1
+                                              
+                                            }
+                                        }
                                         })
                                 }
                             }
                     })
                 })
         setTimeout(runSimulation,speed)
-       },
-       [],
-     )
+       }
+    
     
      const [gen, setgen] = useState(1)
     //setting the grid into a state
@@ -115,6 +116,14 @@ const Board = ({active,setactive}) => {
         padding: '20px',
         margin: '20px',
         background: `${!isRunning ? '#237235' : '#ff0000cc' }`,
+        border: '0',
+        color: '#fff',
+        borderRadius: '5px'
+    }
+    const buttonwithcolor2 ={
+        padding: '20px',
+        margin: '20px',
+        background: `${conwells ===true ? '#237235' : '#333' }`,
         border: '0',
         color: '#fff',
         borderRadius: '5px'
@@ -153,7 +162,10 @@ const Board = ({active,setactive}) => {
             <button style={button} onClick={()=>{
                  setgrid(randomize())
             }}>Random</button>
-            <button style={button} onClick={
+            <button style={buttonwithcolor2} onClick={()=>{
+                setconwells(!conwells)
+            }}>{conwells === true ? 'Conwell\'s Algorithm' : 'Daniel\'s Algorithm'}</button>
+            <button  style={button} onClick={
                 ()=>{
                     setspeed(speed+100)
                 }
